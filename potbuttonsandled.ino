@@ -18,25 +18,27 @@ void setup() {
 void loop() {
   val = analogRead(potPin);    // read the value from the sensor
   //Serial.println(val);
-  myservo.writeMicroseconds(1000 + val);
+  int wval = 1000 + val; //written val to servo
+  myservo.writeMicroseconds(wval);
   
   buttonStateRight = digitalRead(buttonPinRight);
   buttonStateLeft = digitalRead(buttonPinLeft);
 
-  // check if the pushbutton is pressed. If it is, the buttonState is HIGH:
+  // quick turns to full left and full right
   if (buttonStateLeft == HIGH) {
-    // turn LED on:
-    
-    myservo.writeMicroseconds(1000);
+    wval = 1000;
+    myservo.writeMicroseconds(wval);
     digitalWrite(ledPin, HIGH);
     delay(10);
   } 
   if (buttonStateRight == HIGH) {
-    // turn LED off:
-    myservo.writeMicroseconds(2000);
+    wval = 2000;
+    myservo.writeMicroseconds(wval);
     digitalWrite(ledPin, HIGH);
     delay(10);
   }
   digitalWrite(ledPin, LOW);
-  Serial.println(myservo.read());//prints angle of wheels
+  Serial.println(wval);//value written to writems
+  //Serial.println(myservo.read());//angle
+  
 }
