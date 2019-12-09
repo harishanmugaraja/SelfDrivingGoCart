@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html>
+<body>
+<h1>Control LED light</h1>
+<p><input type="checkbox" id="signal"></p>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.0.3/socket.io.j$
+<script>
+var socket = io(); //load socket.io-client and connect to the host that serves $
+window.addEventListener("load", function(){ //when page loads
+  var signalbox = document.getElementById("signal");
+  signalbox.addEventListener("change", function() { //add event listener for wh$
+    socket.emit("signal", Number(this.checked)); //send button status to server$
+  });
+});
+socket.on('signal', function (data) { //get button status from client
+  document.getElementById("signal").checked = data; //change checkbox according$
+  socket.emit("signal", data); //send push button status to back to server
+});
+</script>
