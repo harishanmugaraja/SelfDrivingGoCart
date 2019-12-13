@@ -1,0 +1,32 @@
+#Tony Liang
+#Nov 20 2019
+#take in value written to writeMicroseconds() on the arduino and log it in a text file here.
+import subprocess
+import serial
+import RPi.GPIO as GPIO
+import time
+
+filename = "steeringdata.txt"
+cmd = ['/Users/tliang/Desktop/Syslab/rplidar_sdk-master/sdk/output/Darwin/Release/ultra_simple',
+       '/dev/tty.SLAB_USBtoUART', '115200']
+
+ser=serial.Serial("/dev/ttyACM0",9600)  #change ACM number as found from ls /dev/tty/ACM*
+ser.baudrate=9600
+
+def main():
+    f = open(filename, "w")
+    while True:
+        read_ser = ser.readline()
+        f.write("new data")
+        f.write(str(read_ser) + "\n")
+        #print(read_ser)
+        process = subprocess.Popen(cmd, stdout=subprocess.PIPE)
+        startTime = time.process_time_ns()
+        while time.process_time_ns() - startTime < .2 * 10^9:
+            for line in process.stdout:
+                f.write(line)
+        
+    f.close()
+
+if __name__ == "__main__":
+    main()
