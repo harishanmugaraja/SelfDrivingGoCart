@@ -5,7 +5,8 @@ import subprocess
 import serial
 import RPi.GPIO as GPIO
 import time
-
+import os
+import signal
 filename = "steeringdata.txt"
 cmd = ['/Users/tliang/Desktop/Syslab/rplidar_sdk-master/sdk/output/Darwin/Release/ultra_simple',
        '/dev/tty.SLAB_USBtoUART', '115200']
@@ -15,16 +16,18 @@ ser.baudrate=9600
 
 def main():
     f = open(filename, "w")
+
     while True:
         read_ser = ser.readline()
         f.write("new data")
         f.write(str(read_ser) + "\n")
         #print(read_ser)
-        process = subprocess.Popen(cmd, stdout=subprocess.PIPE)
+        process = subprocess.Popen(cmd, stdout=subprocess.PIPE, shell=True, preexec_fn=os.setsid)
         startTime = time.process_time_ns()
-        while time.process_time_ns() - startTime < .2 * 10^9:
+        while time.process_time_ns() - startTime < .25 * 10^9:
             for line in process.stdout:
                 f.write(line)
+        os.killpg(os.getpgid(cmd.pid), signal.SIGTERM)#end process code from stack overflow
         
     f.close()
 
