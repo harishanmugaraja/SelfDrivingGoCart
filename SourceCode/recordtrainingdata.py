@@ -6,13 +6,14 @@ import serial
 import RPi.GPIO as GPIO
 import time
 
-filename = "steeringdata.txt"
+filename = "steeringdata2.txt"
 cmd = ['/home/pi/Desktop/rplidar_sdk-master/sdk/output/Linux/Release/ultra_simple']
 
-ser=serial.Serial("/dev/ttyUSB0",9600)  #change ACM number as found from ls /dev/tty/ACM*
+ser=serial.Serial("/dev/ttyUSB1",9600)  #change ACM number as found from ls /dev/tty/ACM*
 ser.baudrate=9600
 
 def main():
+    print("hi")
     f = open(filename, "w")
     while True:
         read_ser = ser.readline()
