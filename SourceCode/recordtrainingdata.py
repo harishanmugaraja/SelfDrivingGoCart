@@ -8,8 +8,11 @@ import time
 import os
 import signal
 filename = "steeringdata.txt"
-cmd = ['/Users/tliang/Desktop/Syslab/rplidar_sdk-master/sdk/output/Darwin/Release/ultra_simple',
+#cmd = ['/Users/tliang/Desktop/Syslab/rplidar_sdk-master/sdk/output/Darwin/Release/ultra_simple',
        '/dev/tty.SLAB_USBtoUART', '115200']
+cmd = ['/home/pi/Desktop/rplidar_sdk-master/sdk/output/Linux/Release/ultra_simple']
+
+
 
 ser=serial.Serial("/dev/ttyACM0",9600)  #change ACM number as found from ls /dev/tty/ACM*
 ser.baudrate=9600
