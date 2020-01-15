@@ -1,6 +1,7 @@
 #Tony Liang
 #Nov 20 2019
 #take in value written to writeMicroseconds() on the arduino and log it in a text file here.
+import sys
 import subprocess
 import serial
 import RPi.GPIO as GPIO
