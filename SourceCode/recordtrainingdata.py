@@ -15,10 +15,10 @@ cmd = ['/home/pi/Desktop/rplidar_sdk-master/sdk/output/Linux/Release/ultra_simpl
 usbforlidarprompt = sys.argv[1]#this will be a number, usually 1 or 2
 usbforserialprompt = sys.argv[2]
 usbforlidar = "/dev/ttyUSB" + usbforlidarprompt
-usbforserial = "/dev/ttyACM" + usbforserialprompt
+usbforserial = "/dev/ttyUSB" + usbforserialprompt
 print("lidar" + usbforlidar + "arduino" + usbforserial)
 cmd.append(usbforlidar)
-
+print(cmd)
 k = 0
 ser=serial.Serial(usbforserial,9600)  #change ACM number as found from ls /dev/tty/ACM*
 ser.baudrate=9600
