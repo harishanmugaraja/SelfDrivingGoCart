@@ -15,7 +15,7 @@ cmd = ['/home/pi/Desktop/rplidar_sdk-master/sdk/output/Linux/Release/ultra_simpl
 usbforlidarprompt = sys.argv[1]#this will be a number, usually 1 or 2
 usbforserialprompt = sys.argv[2]
 usbforlidar = "/dev/ttyUSB" + usbforlidarprompt
-usbforserial = "/dev/ttyUSB" + usbforserialprompt
+usbforserial = "/dev/ttyACM" + usbforserialprompt
 print("lidar" + usbforlidar + "arduino" + usbforserial)
 cmd.append(usbforlidar)
 
