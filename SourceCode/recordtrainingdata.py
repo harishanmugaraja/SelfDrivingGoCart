@@ -18,7 +18,7 @@ cmd.append(usbforlidar)
 
 k = 0
 ser=serial.Serial("/dev/ttyUSB0",9600)  #change ACM number as found from ls /dev/tty/ACM*
-    ser.baudrate=9600
+ser.baudrate=9600
 
 
 def main():
