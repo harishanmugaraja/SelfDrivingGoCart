@@ -10,17 +10,26 @@ import os
 import signal
 filename = "steeringdata.txt"
 #cmd = ['/Users/tliang/Desktop/Syslab/rplidar_sdk-master/sdk/output/Darwin/Release/ultra_simple',
-       #'/dev/tty.SLAB_USBtoUART', '115200']
+       #'/dev/tty.SLAB_USBtoUART', '115200']<<<<<<< HEAD
 cmd = ['/home/pi/Desktop/rplidar_sdk-master/sdk/output/Linux/Release/ultra_simple']
-usbforlidarprompt = sys.argv[1]#this will be a number, usually 1 or 2
-usbforserialprompt = sys.argv[2]
-usbforlidar = "/dev/ttyUSB" + usbforlidarprompt
-usbforserial = "/dev/ttyUSB" + usbforserialprompt
-print("lidar" + usbforlidar + "arduino" + usbforserial)
-cmd.append(usbforlidar)
-print(cmd)
+#usbforlidarprompt = sys.argv[1]#this will be a number, usually 1 or 2
+#usbforserialprompt = sys.argv[2]
+#usbforlidar = "/dev/ttyUSB" + usbforlidarprompt
+#usbforserial = "/dev/ttyUSB" + usbforserialprompt
+#print("lidar" + usbforlidar + "arduino" + usbforserial)
+#cmd.append(usbforlidar)
+#print(cmd)
+cmd = ['/home/pi/Desktop/rplidar_sdk-master/sdk/output/Linux/Release/ultra_simple', "/dev/ttyUSB1"]
+#usbforlidarprompt = sys.argv[1]#this will be a number, usually 1 or 2
+#usbforserialprompt = sys.argv[2]
+#usbforlidar = "/dev/ttyUSB" + usbforlidarprompt
+#usbforserial = "/dev/ttyACM" + usbforserialprompt
+#print("lidar" + usbforlidar + "arduino" + usbforserial)
+#cmd.append(usbforlidar)
+
+>>>>>>> 03719ffe5410b00ceb5feebafb190ae820eb515f
 k = 0
-ser=serial.Serial(usbforserial,9600)  #change ACM number as found from ls /dev/tty/ACM*
+ser=serial.Serial("/dev/ttyACM0",9600)  #change ACM number as found from ls /dev/tty/ACM*
 ser.baudrate=9600
 
 
