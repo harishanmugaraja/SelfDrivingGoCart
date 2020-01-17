@@ -27,7 +27,6 @@ cmd = ['/home/pi/Desktop/rplidar_sdk-master/sdk/output/Linux/Release/ultra_simpl
 #print("lidar" + usbforlidar + "arduino" + usbforserial)
 #cmd.append(usbforlidar)
 
->>>>>>> 03719ffe5410b00ceb5feebafb190ae820eb515f
 k = 0
 ser=serial.Serial("/dev/ttyACM0",9600)  #change ACM number as found from ls /dev/tty/ACM*
 ser.baudrate=9600
