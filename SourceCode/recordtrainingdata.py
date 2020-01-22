@@ -49,8 +49,8 @@ def main():
                 
                 k = 0
                 break
-        #os.killpg(os.getpgid(cmd.pid), signal.SIGTERM)#end process code from stack overflow
-        
+       # os.killpg(os.getpgid(cmd.pid), signal.SIGTERM)#end process code from stack overflow
+        process.terminate()
     f.close()
 
 if __name__ == "__main__":
