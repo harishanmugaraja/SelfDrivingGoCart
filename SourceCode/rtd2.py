@@ -24,14 +24,14 @@ ser.baudrate=9600
 
 def main():
     
-    startTime = time.process_time_ns()
+    startTime = time.time()
     fLidar = open(filenameLidar, "w")
     fCar = open(filenameCar, "w")
 
     while True:
         global k
         currentSteeringData = readLastLine(ser)
-        currentTime = time.process_time_ns() - startTime
+        currentTime = time.time() - startTime
         fLidar.write("time" + str(currentTime) + "\n")
         fCar.write("time" + str(currentTime) + currentSteeringData + "\n")
         #print(read_ser)
