@@ -32,6 +32,7 @@ def main():
     while True:
         global k
         currentSteeringData = readLastLine(ser)
+        print(currentSteeringData)
         currentTime = time.time() - startTime
         fLidar.write("time" + str(currentTime) + "\n")
         fCar.write("time" + str(currentTime) + currentSteeringData + "\n")
