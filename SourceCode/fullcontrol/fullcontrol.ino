@@ -52,7 +52,7 @@ void loop() {
       ledState = 0;
     }
   } 
-
+  Serial.flush();//new line added to clear serial
   Serial.print(wvalDrive);//value written to writems
   Serial.print(" ");
   Serial.print(valDrive);
