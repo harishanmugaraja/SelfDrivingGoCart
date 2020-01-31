@@ -58,7 +58,8 @@ void loop() {
   Serial.print(valDrive);
   Serial.print("   ");
   Serial.print(wvalSteer);
-  Serial.println(" ");
+  Serial.println(" done");
+  delay(10);
   //Serial.println(myservo.read());//angle
   
 }
