@@ -25,6 +25,7 @@ ser.baudrate=9600
 def main():
     
     startTime = time.time()
+    print(startTime)
     fLidar = open(filenameLidar, "w")
     fCar = open(filenameCar, "w")
 
