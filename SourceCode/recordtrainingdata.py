@@ -46,6 +46,7 @@ def main():
         for line in process.stdout:
             f.write(line)
             k+=1
+            print(k)
             if k >= 500:
                 
                 k = 0
