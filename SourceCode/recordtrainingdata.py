@@ -35,6 +35,7 @@ def main():
 
     while True:
         global k
+        ser.flushInput()
         read_ser = ser.readline()
         f.write("new data")
         f.write(str(read_ser) + "\n")
