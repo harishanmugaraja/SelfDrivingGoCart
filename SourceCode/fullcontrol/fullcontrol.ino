@@ -59,7 +59,7 @@ void loop() {
   Serial.print("   ");
   Serial.print(wvalSteer);
   Serial.println(" done");
-  delay(10);
+  delay(500);
   //Serial.println(myservo.read());//angle
   
 }
