@@ -21,11 +21,11 @@ def main():
     
     while True:
         global k
-        currentSteeringData = str(ser.readline())
+        currentSteeringData = str(ser.readline())[2:]
         
         #print(currentSteeringData)
         currentTime = time.time()
-        toWrite ="time " + str(time.time()) + currentSteeringData + "\n"
+        toWrite = str(time.time()) + " "+ currentSteeringData + "\n"
         print(toWrite)
         fCar.write(toWrite)
         #print(read_ser)
