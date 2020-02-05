@@ -55,7 +55,7 @@ void loop() {
   Serial.flush();//new line added to clear serial
   Serial.print(wvalDrive);//value written to writems
   Serial.print(" ");
-  Serial.print(wvalSteer);
+  Serial.println(wvalSteer);
   delay(500);
   //Serial.println(myservo.read());//angle
   
