@@ -28,7 +28,7 @@ def main():
             fLidar.write(str(time.time()))
         fLidar.write(line)
     process.terminate()
-f.close()
+    fLidar.close()
 
 
 def readLastLine(ser):
