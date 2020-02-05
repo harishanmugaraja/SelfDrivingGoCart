@@ -21,7 +21,7 @@ def main():
     
     while True:
         global k
-        currentSteeringData = str(ser.readline())[2:]
+        currentSteeringData = str(ser.readline())
         
         #print(currentSteeringData)
         currentTime = time.time()
