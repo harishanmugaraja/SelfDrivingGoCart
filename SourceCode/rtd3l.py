@@ -8,14 +8,15 @@ import serial
 #import RPi.GPIO as GPIO
 import time
 import os
-import keyboard
+#import keyboard
 import signal
 filenameLidar = "steeringdatalidar.txt"
 filenameCar = "steeringdatacar.txt"
 
 usbn = sys.argv[1] #port n for lidar, usually 1 or 0
+timeToRun = sys.argv[2]#time in seconds
 print("dev/ttyUSB" + usbn)
-
+startTime = time.time()
 cmd = ['/home/pi/Desktop/rplidar_sdk-master/sdk/output/Linux/Release/ultra_simple', "/dev/ttyUSB" + usbn]
 
 
@@ -27,13 +28,11 @@ def main():
     process = subprocess.Popen(cmd, stdout=subprocess.PIPE, shell=True, preexec_fn=os.setsid)
     for line in process.stdout:
         if "S" in line:
-            if keyboard.read_key() == "f":
-                process.terminate()
-                fLidar.close()
             fLidar.write(str(time.time()) + "\n")
         fLidar.write(line)
-        #process.terminate()
-#fLidar.close()
+        if time.time() - startTime > timeToRun:
+            process.terminate()
+            fLidar.close()
 
 
 def readLastLine(ser):
