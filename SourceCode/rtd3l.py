@@ -1,12 +1,14 @@
 #Tony Liang and hari
 #Jan 31 2020
 #take in value written to writeMicroseconds() on the arduino and log it in a text file here.
+#python 2
 import sys
 import subprocess
 import serial
 import RPi.GPIO as GPIO
 import time
 import os
+import keyboard
 import signal
 filenameLidar = "steeringdatalidar.txt"
 filenameCar = "steeringdatacar.txt"
@@ -25,10 +27,13 @@ def main():
     process = subprocess.Popen(cmd, stdout=subprocess.PIPE, shell=True, preexec_fn=os.setsid)
     for line in process.stdout:
         if "S" in line:
-            fLidar.write(str(time.time()))
+            if keyboard.read_key() == "f":
+                process.terminate()
+                fLidar.close()
+            fLidar.write(str(time.time()) + "\n")
         fLidar.write(line)
-    process.terminate()
-    fLidar.close()
+        #process.terminate()
+#fLidar.close()
 
 
 def readLastLine(ser):

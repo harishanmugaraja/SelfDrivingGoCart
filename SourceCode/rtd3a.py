@@ -1,7 +1,7 @@
 #Tony Liang and hari
 #Feb 5
 #take in value written to writeMicroseconds() on the arduino and log it in a text file here. To run on tony's mac
-#python 2
+#python 3
 import sys
 import subprocess
 import serial
