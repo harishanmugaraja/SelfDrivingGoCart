@@ -25,7 +25,7 @@ def main():
         
         #print(currentSteeringData)
         currentTime = time.time()
-        toWrite = str(time.time()) +" " + currentSteeringData 
+        toWrite = str(time.time()) +" " + currentSteeringData + "\n"
         print(toWrite)
         fCar.write(toWrite)
         #print(read_ser)
