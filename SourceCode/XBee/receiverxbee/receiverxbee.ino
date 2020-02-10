@@ -17,45 +17,84 @@ void charToString(char S[], String &D)
  
 }
 void loop() { // run over and over
-while(xbee.available() > 0){
-  char a, b, c, d; 
-  int len = 0;
-  a = xbee.read();
-  b = xbee.read();
-  if(b!=10){
-   len+=1;
-   c = xbee.read();
-    if(c!=10){
-      len+=1;
-      d = xbee.read();
-      if(d!=10){
-        len+=1;
-      }
+
+  while(xbee.available()>0){
+    delay(100);
+    char a,b,c,d,e,f,g,h,i,j;
+    int msg_length = xbee.available();
+    String msg;
+    if(msg_length==2){
+        a=xbee.read();
+        b=xbee.read();
+        Serial.println(String(a)+String(b));
+    }
+    if(msg_length==3){
+        a=xbee.read();
+        b=xbee.read();
+        c=xbee.read();
+        Serial.println(String(a)+String(b)+String(c));
+    }
+    if(msg_length==4){
+        a=xbee.read();
+        b=xbee.read();
+        c=xbee.read();
+        d=xbee.read();
+        Serial.println(String(a)+String(b)+String(c)+String(d));
+    }
+    if(msg_length==6){
+        a=xbee.read();
+        b=xbee.read();
+        c=xbee.read();
+        d=xbee.read();
+        e=xbee.read();
+        f=xbee.read();
+        Serial.println(String(a)+String(b)+String(c)+String(d)+String(e)+String(f));
+    }
+    if(msg_length==7){
+        a=xbee.read();
+        b=xbee.read();
+        c=xbee.read();
+        d=xbee.read();
+        e=xbee.read();
+        f=xbee.read();
+        g=xbee.read();
+        Serial.println(String(a)+String(b)+String(c)+String(d)+String(e)+String(f)+String(g));
+    }
+    if(msg_length==8){
+        a=xbee.read();
+        b=xbee.read();
+        c=xbee.read();
+        d=xbee.read();
+        e=xbee.read();
+        f=xbee.read();
+        g=xbee.read();
+        h=xbee.read();
+        Serial.println(String(a)+String(b)+String(c)+String(d)+String(e)+String(f)+String(g)+String(h));
+    }
+    if(msg_length==9){
+        a=xbee.read();
+        b=xbee.read();
+        c=xbee.read();
+        d=xbee.read();
+        e=xbee.read();
+        f=xbee.read();
+        g=xbee.read();
+        h=xbee.read();
+        i=xbee.read();
+        Serial.println(String(a)+String(b)+String(c)+String(d)+String(e)+String(f)+String(g)+String(h)+String(i));
+    }
+    if(msg_length==10){
+        a=xbee.read();
+        b=xbee.read();
+        c=xbee.read();
+        d=xbee.read();
+        e=xbee.read();
+        f=xbee.read();
+        g=xbee.read();
+        h=xbee.read();
+        i=xbee.read();
+        j=xbee.read();
+        Serial.println(String(a)+String(b)+String(c)+String(d)+String(e)+String(f)+String(g)+String(h)+String(i)+String(j));
     }
   }
-  if(len==1){
-    String msg;
-    char mone[1] = {a};
-    charToString(mone,msg);
-    Serial.println(msg);
-  }
-  if(len==2){
-    String msg;
-    char mone[2] = {a,b};
-    charToString(mone,msg);
-    Serial.println(msg);
-  }
-  if(len==3){
-    String msg;
-    char mone[3] = {a,b,c};
-    charToString(mone,msg);
-    Serial.println(msg);
-  }
-  if(len==4){
-    String msg;
-    char mone[4] = {a,b,c,d};
-    charToString(mone,msg);
-    Serial.println(msg);
-  }
-}
 }
