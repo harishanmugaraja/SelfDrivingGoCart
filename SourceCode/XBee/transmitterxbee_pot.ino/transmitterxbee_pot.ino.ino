@@ -16,6 +16,6 @@ void loop() { // run over and over
   steeringVal = analogRead(steeringPin);
   String msg = String(throttleVal);
   String msg2 = String(steeringVal);
-  xbee.print(msg+"\n"+msg2+"\n");
+  xbee.print(msg+" "+msg2+"\n");
   delay(500);
 }
