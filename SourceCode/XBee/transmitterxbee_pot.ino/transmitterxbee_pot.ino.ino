@@ -10,10 +10,21 @@ void setup() {
 // Open serial communications and wait for port to open:
   Serial.begin(9600);
   xbee.begin(9600);
-}//
+}
 void loop() { // run over and over
   throttleVal = analogRead(throttlePin);
   steeringVal = analogRead(steeringPin);
+  throttleVal+=1000;
+  steeringVal+=1000;//this is the time spent on high, steeringVal must be between 1000 and 2000
+  if (throttleVal > 2000)
+  {
+    throttleVal = 2000;
+  }
+  if (throttleVal < 1000)
+  {
+    throttleVal = 1000;
+  }
+  
   String msg = String(throttleVal);
   String msg2 = String(steeringVal);
   xbee.print(msg+" "+msg2+"\n");
