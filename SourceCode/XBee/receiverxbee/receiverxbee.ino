@@ -20,10 +20,39 @@ void setup() {
 void loop() { // run over and over
 
   while(xbee.available()>0){
-    delay(100);
+    delay(25);
     char a,b,c,d,e,f,g,h,i,j;
     int msg_length = xbee.available();
     String msg;
+    if(msg_length==10){
+        a=xbee.read();
+        b=xbee.read();
+        c=xbee.read();
+        d=xbee.read();
+        e=xbee.read();
+        f=xbee.read();
+        g=xbee.read();
+        h=xbee.read();
+        i=xbee.read();
+        j=xbee.read();
+        String msg = String(a)+String(b)+String(c)+String(d)+String(e)+String(f)+String(g)+String(h)+String(i)+String(j);
+        Serial.println(msg);
+        int valDrive = msg.substring(0,4).toInt();
+        int valSteer = msg.substring(5,9).toInt();
+
+        myservo.writeMicroseconds(valSteer);
+
+        int wvalDrive = 10000 - valDrive; //10k - (1500-2000) full reverse to full forward is 1000 to 2000
+        int count = 0;
+        /*while(count<20){//20 milliseconds
+        digitalWrite(6, HIGH);
+        delayMicroseconds(valDrive);
+        digitalWrite(6, LOW);
+        delayMicroseconds(wvalDrive);
+        count+=1;
+        }*/
+        return;
+    }
     if(msg_length==2){
         a=xbee.read();
         b=xbee.read();
@@ -83,41 +112,6 @@ void loop() { // run over and over
         h=xbee.read();
         i=xbee.read();
         Serial.println(String(a)+String(b)+String(c)+String(d)+String(e)+String(f)+String(g)+String(h)+String(i));
-    }
-    if(msg_length==10){
-        a=xbee.read();
-        b=xbee.read();
-        c=xbee.read();
-        d=xbee.read();
-        e=xbee.read();
-        f=xbee.read();
-        g=xbee.read();
-        h=xbee.read();
-        i=xbee.read();
-        j=xbee.read();
-        String msg = String(a)+String(b)+String(c)+String(d)+String(e)+String(f)+String(g)+String(h)+String(i)+String(j);
-        int valDrive = toInt(msg.substring(0,4));
-        int valSteer = toInt(msg.substring(5,9));
-
-        myservo.writeMicroseconds(valSteer);
-
-        int wvalDrive = 10000 - valDrive; //10k - (1500-2000) full reverse to full forward is 1000 to 2000
-        count = 0;
-        while(count<39){//39 milliseconds
-        digitalWrite(6, HIGH);
-        delayMicroseconds(valDrive);
-        digitalWrite(6, LOW);
-        delayMicroseconds(wvalDrive);
-        count+=1;
-        }
-      
-        Serial.flush();//new line added to clear serial
-        Serial.print(wvalDrive);//value written to writems
-        Serial.print(" ");
-        Serial.println(wvalSteer);
-        
-        Serial.println();
-        
     }
   }
 }

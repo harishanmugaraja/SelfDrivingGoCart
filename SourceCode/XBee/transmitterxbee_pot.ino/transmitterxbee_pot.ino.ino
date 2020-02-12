@@ -28,5 +28,5 @@ void loop() { // run over and over
   String msg = String(throttleVal);
   String msg2 = String(steeringVal);
   xbee.print(msg+" "+msg2+"\n");
-  delay(500);
+  delay(50);
 }
