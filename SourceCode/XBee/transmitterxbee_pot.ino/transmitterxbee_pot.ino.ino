@@ -27,6 +27,8 @@ void loop() { // run over and over
   
   String msg = String(throttleVal);
   String msg2 = String(steeringVal);
-  xbee.print(msg+" "+msg2+"\n");
-  delay(50);
+  String finalmsg = msg+" "+msg2+"\n";
+  xbee.print(finalmsg);
+  Serial.println(finalmsg);
+  delay(100);
 }
