@@ -22,24 +22,35 @@
 import sys
 
 import subprocess
-import serial
+#import serial
 import time
 import os
 import signal
 
 filename = "steeringdata.txt"
-print("cardatafile lidardatafile offset")
+print("cardatafile lidardatafile offset -copy and paste: steeringdatacar.txt steeringdatalidar.txt 1.5")
 threeinputs = input()
 splitupinputs = threeinputs.split(" ")
 lidarFile = splitupinputs[1]
 carFile = splitupinputs[0]#"steeringdatacarsample.txt"
+arduinoTimeToLidarTime = dict()#maps arduino time to closest lidar time
+lidarTimeToArduinoTime = dict()
 
-offset = float(splitupinputs[2])  # offset accounts for time difference between pi and tony's computer
+offset = float(splitupinputs[2])  # offset accounts for time difference between pi and tony's computer - this is
+#tony's computer - pi computer. Positive if tonys computer is ahead
 timeToValues = dict()#arduino time to steering data
 timeList = list()#list of times from arduino
 
 timeListLidar = list()#list of times from pi
-timeToLidarPoints = list()#list of times from pi to lidar points
+timeToLidarPoints = dict()#list of times from pi to lidar points
+finalList = list()
+
+def findClosestTime(time, options):
+    absolute_difference_function = lambda list_value: abs(list_value - time)
+
+    closest_value = min(options, key=absolute_difference_function)
+
+    return closest_value
 
 def main():
     global timeList, timeToValues
@@ -47,36 +58,56 @@ def main():
         for line in f.readlines():
             splitupline = line.split(" ")
             if len(splitupline) == 3:
-                time = splitupline[0]
-                motor = splitupline[1].lstrip("b'")
-                steering = splitupline[2][0:4]
+                time = float(splitupline[0])
+                motor = float(splitupline[1].lstrip("b'"))
+                steering = float(splitupline[2][0:4])
                 timeList.append(time)
                 valueList = [motor, steering]
-                valueTuple = tuple(valueList)
-                timeToValues[time] = valueTuple
+                #valueTuple = tuple(valueList)
+                timeToValues[time] = valueList
         f.close()
         timeList = tuple(timeList)
-    print(timeList)
-    print(timeToValues)
+    #print(timeList)
+    #print(timeToValues)
 
-        with open(lidarFile) as fl:
-            currentPoints = list()
-            currentTime = None
-            for line in fl.readlines():
-                if "theta" in line:
-                    strippedLine = line.strip(" ")
-                    splitWords = strippedLine.split(" ")
-                    theta = splitWords[0]
-                    dist = splitWords[2]
-                    pointList = [theta, dist]
-                    pointTuple = tuple(pointList)
-                    currentPoints.append(pointTuple)
-                elif len(line.split(" ")) == 1: #this is the line where only time is printed, reset currentpoints and currenttime
-                    currentTime = line
-                    timeListLidar.append(currentTime)
-                    timeToLidarPoints[currentTime] = currentPoints
-                    currentPoints = list()
-                    currentTime = None
+    with open(lidarFile) as fl:
+        currentPoints = list()
+        currentTime = None
+        for line in fl.readlines():
+            if "theta" in line and "S" not in line:
+
+                strippedLine = line.strip(" ")
+
+                splitWords = strippedLine.split(" ")
+                theta = float(splitWords[1])
+                dist = float(splitWords[3])
+                pointList = [theta, dist]
+                pointTuple = tuple(pointList)
+                currentPoints.append(pointTuple)
+            elif len(line.split(" ")) == 1: #this is the line where only time is printed, reset currentpoints and currenttime
+                currentTime = float(line.strip("\n"))
+                timeListLidar.append(currentTime + offset)
+                timeToLidarPoints[currentTime] = currentPoints[1:]
+                currentPoints = list()
+                currentTime = None
+    print(" ")
+    #for t in timeToLidarPoints:
+    #    print(t, timeToLidarPoints[t])
+    print(timeListLidar)
+    print(timeList)
+    for t in timeList:
+        closestLidarTime = findClosestTime(t, timeListLidar)
+        arduinoTimeToLidarTime[t] = closestLidarTime
+        #lidarTimeToArduinoTime[closestLidarTime] = t
+
+    print(arduinoTimeToLidarTime[1582122254.22])#continue working here
+    for t in timeList:
+        #print(timeToValues[t])
+        print(timeToLidarPoints[1582122254.22])
+        #toAppend = timeToValues[t] + timeToLidarPoints[arduinoTimeToLidarTime[t]]
+        #print(toAppend)
+
+
 
 
 
