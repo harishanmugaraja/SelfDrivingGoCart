@@ -13,7 +13,7 @@ filenameLidar = "steeringdatalidar.txt"
 filenameCar = "steeringdatacar.txt"
 
 k = 0
-ser=serial.Serial("/dev/tty.usbmodem14101",9600)  #change ACM number as found from ls /dev/tty/ACM*
+ser=serial.Serial("/dev/tty.usbserial-AI0518NW",9600)  #change ACM number as found from ls /dev/tty/ACM*
 ser.baudrate=9600
 
 def main():
