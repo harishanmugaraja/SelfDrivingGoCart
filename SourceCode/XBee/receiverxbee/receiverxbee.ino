@@ -2,6 +2,7 @@
 #include <SoftwareSerial.h>
 #include <Servo.h>
 Servo myservo;
+Servo esc;
 SoftwareSerial xbee(10, 11); // RX, TX
 int potPinSteer = 2;    // select the input pin for the potentiometer
 int potPinDrive = 1;
@@ -14,13 +15,14 @@ void setup() {
   xbee.begin(9600);
   pinMode(LED_BUILTIN,OUTPUT);
   myservo.attach(3); //arduino to steering
-  pinMode(6, OUTPUT); //arduino to engine
+  esc.attach(6);
+  //pinMode(6, OUTPUT); //arduino to engine
 }
 
 void loop() { // run over and over
 
   while(xbee.available()>0){
-    delay(25);
+    delay(50);
     char a,b,c,d,e,f,g,h,i,j;
     int msg_length = xbee.available();
     String msg;
@@ -42,9 +44,10 @@ void loop() { // run over and over
 
         myservo.writeMicroseconds(valSteer);
 
-        int wvalDrive = 10000 - valDrive; //10k - (1500-2000) full reverse to full forward is 1000 to 2000
+        esc.writeMicroseconds(valDrive);
+        /*int wvalDrive = 10000 - valDrive; //10k - (1500-2000) full reverse to full forward is 1000 to 2000
         int count = 0;
-        /*while(count<20){//20 milliseconds
+        while(count<20){//20 milliseconds
         digitalWrite(6, HIGH);
         delayMicroseconds(valDrive);
         digitalWrite(6, LOW);
