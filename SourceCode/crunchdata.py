@@ -20,7 +20,7 @@
 #    theta: 3.55 Dist: 01044.00 Q: 47
 
 import sys
-
+import random
 import subprocess
 #import serial
 import time
@@ -42,7 +42,7 @@ timeToValues = dict()#arduino time to steering data
 timeList = list()#list of times from arduino
 
 timeListLidar = list()#list of times from pi
-timeToLidarPoints = dict()#list of times from pi to lidar points
+timeToLidarPoints = dict()#list of times from pi  + offset to lidar points
 finalList = list()
 
 def findClosestTime(time, options):
@@ -59,8 +59,8 @@ def main():
             splitupline = line.split(" ")
             if len(splitupline) == 3:
                 time = float(splitupline[0])
-                motor = float(splitupline[1].lstrip("b'"))
-                steering = float(splitupline[2][0:4])
+                motor = int(splitupline[1].lstrip("b'"))
+                steering = int(splitupline[2][0:4])
                 timeList.append(time)
                 valueList = [motor, steering]
                 #valueTuple = tuple(valueList)
@@ -85,30 +85,43 @@ def main():
                 pointTuple = tuple(pointList)
                 currentPoints.append(pointTuple)
             elif len(line.split(" ")) == 1: #this is the line where only time is printed, reset currentpoints and currenttime
+                while len(currentPoints) > 361: #cut currentPoints to exactly 360 or add if youre short
+                    random_item = random.choice(currentPoints)#361 bc we dump the first data point
+                    currentPoints.remove(random_item)
+                while len(currentPoints) < 361:#rare occasion that points is below 360
+                    random_item = random_item(currentPoints)#duplicate some
+                    currentPoints.append(random_item)
                 currentTime = float(line.strip("\n"))
                 timeListLidar.append(currentTime + offset)
-                timeToLidarPoints[currentTime] = currentPoints[1:]
+                timeToLidarPoints[currentTime + offset] = currentPoints[1:]
                 currentPoints = list()
                 currentTime = None
     print(" ")
     #for t in timeToLidarPoints:
     #    print(t, timeToLidarPoints[t])
-    print(timeListLidar)
-    print(timeList)
-    for t in timeList:
+    #print(timeListLidar)
+    #print(timeList)
+    #print(timeToLidarPoints.keys())
+    for t in timeList:#Do not comment out
         closestLidarTime = findClosestTime(t, timeListLidar)
         arduinoTimeToLidarTime[t] = closestLidarTime
         #lidarTimeToArduinoTime[closestLidarTime] = t
-
-    print(arduinoTimeToLidarTime[1582122254.22])#continue working here
-    for t in timeList:
+    print(" ")
+    #print(arduinoTimeToLidarTime)#continue working here
+    #for t in timeToLidarPoints:
+    #    print (len(timeToLidarPoints[t]))
+    for t in timeList:#DO not comment out
         #print(timeToValues[t])
-        print(timeToLidarPoints[1582122254.22])
-        #toAppend = timeToValues[t] + timeToLidarPoints[arduinoTimeToLidarTime[t]]
+        #print(timeToLidarPoints[arduinoTimeToLidarTime[t]])
+        #print(timeToValues[t])
+
+        toAppend = timeToLidarPoints[arduinoTimeToLidarTime[t]] + timeToValues[t]
         #print(toAppend)
+        finalList.append(toAppend)
 
 
-
+    for finalForm in finalList:
+        print(len(finalForm))
 
 
 
