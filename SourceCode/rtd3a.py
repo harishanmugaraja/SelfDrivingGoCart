@@ -10,7 +10,7 @@ import time
 import os
 import signal
 filenameLidar = "steeringdatalidar.txt"
-filenameCar = "steeringdatacar.txt"
+filenameCar = "steeringdatacar3.txt"
 
 k = 0
 ser=serial.Serial("/dev/tty.usbserial-AI0518NW",9600)  #change ACM number as found from ls /dev/tty/ACM*

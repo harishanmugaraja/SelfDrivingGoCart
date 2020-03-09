@@ -5,11 +5,12 @@ int valDrive = 0;
 
 #include <Servo.h>
 Servo myservo;
-
+Servo esc;
 void setup() {
   Serial.begin(9600);
   myservo.attach(3); //arduino to steering
-  pinMode(6, OUTPUT); //arduino to engine
+  //pinMode(6, OUTPUT); //arduino to engine
+  esc.attach(6);
 }
 
 void loop() {
@@ -29,18 +30,19 @@ void loop() {
   {
     valDrive = 1000;
   }
-  
+  esc.writeMicroseconds(valDrive);
   int wvalDrive = 10000 - valDrive; //10k - (1500-2000) full reverse to full forward is 1000 to 2000
-  digitalWrite(6, HIGH);
+  /*digitalWrite(6, HIGH);
   delayMicroseconds(valDrive);
   digitalWrite(6, LOW);
-  delayMicroseconds(wvalDrive);
+  delayMicroseconds(wvalDrive);*/
+  
 
   Serial.flush();//new line added to clear serial
-  Serial.print(wvalDrive);//value written to writems
+  Serial.print(valDrive);//value written to writems
   Serial.print(" ");
   Serial.println(wvalSteer);
-  delay(500);
+  delay(50);
   //Serial.println(myservo.read());//angle
   
 }
