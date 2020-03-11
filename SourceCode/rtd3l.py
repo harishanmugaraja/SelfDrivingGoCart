@@ -10,7 +10,7 @@ import time
 import os
 #import keyboard
 import signal
-filenameLidar = "steeringdatalidar.txt"
+filenameLidar = "steeringdatalidar3.txt"
 filenameCar = "steeringdatacar.txt"
 
 usbn = sys.argv[1] #port n for lidar, usually 1 or 0

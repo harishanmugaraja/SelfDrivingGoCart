@@ -19,6 +19,8 @@
 #    theta: 3.09 Dist: 00000.00 Q: 0
 #    theta: 3.55 Dist: 01044.00 Q: 47
 
+
+#output: big list: inside list: 360 (theta, dist) tuples followed by motor, steering
 import sys
 import random
 import subprocess
@@ -89,7 +91,7 @@ def main():
                     random_item = random.choice(currentPoints)#361 bc we dump the first data point
                     currentPoints.remove(random_item)
                 while len(currentPoints) < 361:#rare occasion that points is below 360
-                    random_item = random_item(currentPoints)#duplicate some
+                    random_item = random.choice(currentPoints)#duplicate some
                     currentPoints.append(random_item)
                 currentTime = float(line.strip("\n"))
                 timeListLidar.append(currentTime + offset)
@@ -121,7 +123,7 @@ def main():
 
 
     for finalForm in finalList:
-        print(len(finalForm))
+        print(finalForm)
 
 
 
