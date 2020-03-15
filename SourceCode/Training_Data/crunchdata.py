@@ -73,20 +73,27 @@ def main():
     #print(timeToValues)
 
     with open(lidarFile) as fl:
+        lineNumber = 0
         currentPoints = list()
         currentTime = None
         for line in fl.readlines():
+            lineNumber = lineNumber + 1
             if "theta" in line and "S" not in line:
 
                 strippedLine = line.strip(" ")
 
                 splitWords = strippedLine.split(" ")
+                #print(splitWords)#debug
                 theta = float(splitWords[1])
                 dist = float(splitWords[3])
                 pointList = [theta, dist]
                 pointTuple = tuple(pointList)
                 currentPoints.append(pointTuple)
-            elif len(line.split(" ")) == 1: #this is the line where only time is printed, reset currentpoints and currenttime
+        
+            elif len(line.split(" ")) == 1 and len(currentPoints) > 10: #this is the line where only time is printed, reset currentpoints and currenttime
+                #print(currentPoints)
+                print(len(currentPoints))
+                print(lineNumber)
                 while len(currentPoints) > 361: #cut currentPoints to exactly 360 or add if youre short
                     random_item = random.choice(currentPoints)#361 bc we dump the first data point
                     currentPoints.remove(random_item)
@@ -98,7 +105,7 @@ def main():
                 timeToLidarPoints[currentTime + offset] = currentPoints[1:]
                 currentPoints = list()
                 currentTime = None
-    print(" ")
+#print(" ")
     #for t in timeToLidarPoints:
     #    print(t, timeToLidarPoints[t])
     #print(timeListLidar)
