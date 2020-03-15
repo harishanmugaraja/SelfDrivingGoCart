@@ -78,11 +78,12 @@ def main():
         currentTime = None
         for line in fl.readlines():
             lineNumber = lineNumber + 1
-            if "theta" in line and "S" not in line:
+            strippedLine = line.strip(" ")
+            splitWords = strippedLine.split(" ")
+            if "theta" in line and "S" not in line and len(splitWords) == 6 :
 
-                strippedLine = line.strip(" ")
 
-                splitWords = strippedLine.split(" ")
+                
                 #print(splitWords)#debug
                 theta = float(splitWords[1])
                 dist = float(splitWords[3])
