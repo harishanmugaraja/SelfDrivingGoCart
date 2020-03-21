@@ -80,17 +80,14 @@ def main():
             lineNumber = lineNumber + 1
             strippedLine = line.strip(" ")
             splitWords = strippedLine.split(" ")
-            if "theta" in line and "S" not in line and len(splitWords) == 6 :
-
-
-                
+            if "theta" in line and "S" not in line :
                 #print(splitWords)#debug
                 theta = float(splitWords[1])
                 dist = float(splitWords[3])
                 pointList = [theta, dist]
                 pointTuple = tuple(pointList)
                 currentPoints.append(pointTuple)
-        
+
             elif len(line.split(" ")) == 1 and len(currentPoints) > 10: #this is the line where only time is printed, reset currentpoints and currenttime
                 #print(currentPoints)
                 print(len(currentPoints))
