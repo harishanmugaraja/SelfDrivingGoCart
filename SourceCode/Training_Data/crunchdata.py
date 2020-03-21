@@ -80,7 +80,7 @@ def main():
             lineNumber = lineNumber + 1
             strippedLine = line.strip(" ")
             splitWords = strippedLine.split(" ")
-            if "theta" in line and "S" not in line :
+            if "theta" in line and "S" not in line:# and len(splitWords)==6:
                 #print(splitWords)#debug
                 theta = float(splitWords[1])
                 dist = float(splitWords[3])
@@ -91,8 +91,6 @@ def main():
             elif len(line.split(" ")) == 1 and len(currentPoints) > 10: #this is the line where only time is printed, reset currentpoints and currenttime
                 #print(currentPoints)
                 #print(len(currentPoints))
-                if lineNumber % 10000 == 0:
-                    print(lineNumber)
                 while len(currentPoints) > 361: #cut currentPoints to exactly 360 or add if youre short
                     random_item = random.choice(currentPoints)#361 bc we dump the first data point
                     currentPoints.remove(random_item)
@@ -104,6 +102,8 @@ def main():
                 timeToLidarPoints[currentTime + offset] = currentPoints[1:]
                 currentPoints = list()
                 currentTime = None
+            if lineNumber % 10000 == 0 or lineNumber>4430000:
+                print(lineNumber)
 #print(" ")
     #for t in timeToLidarPoints:
     #    print(t, timeToLidarPoints[t])
