@@ -90,8 +90,9 @@ def main():
 
             elif len(line.split(" ")) == 1 and len(currentPoints) > 10: #this is the line where only time is printed, reset currentpoints and currenttime
                 #print(currentPoints)
-                print(len(currentPoints))
-                print(lineNumber)
+                #print(len(currentPoints))
+                if lineNumber % 10000 == 0:
+                    print(lineNumber)
                 while len(currentPoints) > 361: #cut currentPoints to exactly 360 or add if youre short
                     random_item = random.choice(currentPoints)#361 bc we dump the first data point
                     currentPoints.remove(random_item)
@@ -118,13 +119,10 @@ def main():
     #for t in timeToLidarPoints:
     #    print (len(timeToLidarPoints[t]))
     for t in timeList:#DO not comment out
-        #print(timeToValues[t])
-        #print(timeToLidarPoints[arduinoTimeToLidarTime[t]])
-        #print(timeToValues[t])
-
-        toAppend = timeToLidarPoints[arduinoTimeToLidarTime[t]] + timeToValues[t]
-        #print(toAppend)
-        finalList.append(toAppend)
+        if abs(arduinoTimeToLidarTime[t] - t) < .5 + offset:
+            toAppend = timeToLidarPoints[arduinoTimeToLidarTime[t]] + timeToValues[t]
+            #print(toAppend)
+            finalList.append(toAppend)
 
 
     for finalForm in finalList:
