@@ -28,13 +28,15 @@ import subprocess
 import time
 import os
 import signal
+import pickle
 
 filename = "steeringdata.txt"
-print("cardatafile lidardatafile offset -copy and paste: steeringdatacar.txt steeringdatalidar.txt 1.5")
+print("cardatafile lidardatafile offset -copy and paste: steeringdatacar.txt steeringdatalidar.txt 1.5 picklefile")
 threeinputs = input()
 splitupinputs = threeinputs.split(" ")
 lidarFile = splitupinputs[1]
 carFile = splitupinputs[0]#"steeringdatacarsample.txt"
+pickleOut = splitupinputs[3]
 arduinoTimeToLidarTime = dict()#maps arduino time to closest lidar time
 lidarTimeToArduinoTime = dict()
 
@@ -45,8 +47,8 @@ timeList = list()#list of times from arduino
 
 timeListLidar = list()#list of times from pi
 timeToLidarPoints = dict()#list of times from pi  + offset to lidar points
-finalList = list()
-
+finalList = list()#list of lists, each sublist is length 362. 360 (theta,distance) tuples + 2 integers at the end
+finalListOutput = list()# # list of lists, each sublist is length 2 with outputs only
 def findClosestTime(time, options):
     absolute_difference_function = lambda list_value: abs(list_value - time)
 
@@ -120,14 +122,19 @@ def main():
     #    print (len(timeToLidarPoints[t]))
     for t in timeList:#DO not comment out
         if abs(arduinoTimeToLidarTime[t] - t) < .5 + offset:
+            #print(t)
             toAppend = timeToLidarPoints[arduinoTimeToLidarTime[t]] + timeToValues[t]
-            #print(toAppend)
+            finalListOutput.append(timeToValues[t])
             finalList.append(toAppend)
 
 
-    for finalForm in finalList:
-        print(finalForm)
-
+    # for finalForm in finalList:
+    #     #     print(finalForm)
+    #     # for finalOutput in finalListOutput:
+    #     #     print(finalOutput)
+    with open(pickleOut, "wb") as outfile:
+        pickle.dump(finalList, outfile)
+        pickle.dump(finalListOutput, outfile)
 
 
 
