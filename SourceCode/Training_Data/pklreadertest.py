@@ -37,12 +37,13 @@ def main():
         inputandoutput = pickle.load(infile)
         outputonly = pickle.load(infile)
 
-    for i in inputandoutput:
-        print(i)
+    #for i in inputandoutput:
+    #    print(i)
 
-    for o in outputonly:
-        print(o)
-
+    #for o in outputonly:
+    #    print(o)
+    print (inputandoutput[0])
+    print (outputonly[0])
 
 
 

@@ -31,7 +31,7 @@ import signal
 import pickle
 
 filename = "steeringdata.txt"
-print("cardatafile lidardatafile offset -copy and paste: steeringdatacar.txt steeringdatalidar.txt 1.5 picklefile")
+print("cardatafile lidardatafile offset -copy and paste: ctd39.txt ltd39.txt .03 pkl39.pkl")
 threeinputs = input()
 splitupinputs = threeinputs.split(" ")
 lidarFile = splitupinputs[1]
@@ -66,7 +66,7 @@ def main():
                 motor = int(splitupline[1].lstrip("b'"))
                 steering = int(splitupline[2][0:4])
                 timeList.append(time)
-                valueList = [motor, steering]
+                valueList = [[motor,0],[steering,0]]#changed for the neural net, zero is for formatting
                 #valueTuple = tuple(valueList)
                 timeToValues[time] = valueList
         f.close()
@@ -123,8 +123,8 @@ def main():
     for t in timeList:#DO not comment out
         if abs(arduinoTimeToLidarTime[t] - t) < .5 + offset:
             #print(t)
-            toAppend = timeToLidarPoints[arduinoTimeToLidarTime[t]] + timeToValues[t]
-            finalListOutput.append(timeToValues[t])
+            toAppend = [timeToLidarPoints[arduinoTimeToLidarTime[t]] + timeToValues[t]]#testing this
+            finalListOutput.append([timeToValues[t][0][0], timeToValues[t][1][0]])#undos the add 0 
             finalList.append(toAppend)
 
 
