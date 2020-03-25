@@ -123,7 +123,7 @@ def main():
     for t in timeList:#DO not comment out
         if abs(arduinoTimeToLidarTime[t] - t) < .5 + offset:
             #print(t)
-            toAppend = [timeToLidarPoints[arduinoTimeToLidarTime[t]] + timeToValues[t]]#testing this
+            toAppend = timeToLidarPoints[arduinoTimeToLidarTime[t]] + timeToValues[t]#testing this
             finalListOutput.append([timeToValues[t][0][0], timeToValues[t][1][0]])#undos the add 0 
             finalList.append(toAppend)
 
