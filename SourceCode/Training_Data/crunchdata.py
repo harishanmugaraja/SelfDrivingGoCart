@@ -87,8 +87,8 @@ def main():
                 theta = float(splitWords[1])
                 dist = float(splitWords[3])
                 pointList = [theta, dist]
-                pointTuple = tuple(pointList)
-                currentPoints.append(pointTuple)
+                #pointTuple = tuple(pointList)
+                currentPoints.append(pointList)
 
             elif len(line.split(" ")) == 1 and len(currentPoints) > 10: #this is the line where only time is printed, reset currentpoints and currenttime
                 #print(currentPoints)
