@@ -45,6 +45,9 @@ offset = float(splitupinputs[2])  # offset accounts for time difference between 
 timeToValues = dict()#arduino time to steering data
 timeList = list()#list of times from arduino
 
+listofMaxes = list()
+listofMins = list()
+
 timeListLidar = list()#list of times from pi
 timeToLidarPoints = dict()#list of times from pi  + offset to lidar points
 finalList = list()#list of lists, each sublist is length 362. 360 (theta,distance) tuples + 2 integers at the end
@@ -66,8 +69,8 @@ def main():
                 motor = int(splitupline[1].lstrip("b'"))
                 steering = int(splitupline[2][0:4])
                 timeList.append(time)
-                valueList = [motor, steering]#changed for the neural net, zero is for formatting
-                #valueTuple = tuple(valueList)
+                valueList = [motor / 1000, steering / 1000]#changed for the neural net, all values are divided by 100
+                valueTuple = tuple(valueList)
                 timeToValues[time] = valueList
         f.close()
         timeList = tuple(timeList)
@@ -102,6 +105,8 @@ def main():
                 currentTime = float(line.strip("\n"))
                 timeListLidar.append(currentTime + offset)
                 timeToLidarPoints[currentTime + offset] = currentPoints[1:]
+                listofMaxes.append(max(currentPoints))
+                listofMins.append(min(currentPoints))
                 currentPoints = list()
                 currentTime = None
             if lineNumber % 10000 == 0 or lineNumber>4430000:
@@ -120,18 +125,26 @@ def main():
     #print(arduinoTimeToLidarTime)#continue working here
     #for t in timeToLidarPoints:
     #    print (len(timeToLidarPoints[t]))
+
+    kingMax = max(listofMaxes)
+    kingMin = min(listofMins)
+
     for t in timeList:#DO not comment out
         if abs(arduinoTimeToLidarTime[t] - t) < .5 + offset:
             #print(t)
-            toAppend = timeToLidarPoints[arduinoTimeToLidarTime[t]] + timeToValues[t]#testing this
+            toAppend = timeToLidarPoints[arduinoTimeToLidarTime[t]]# + timeToValues[t]#testing this
+
+
+            toAppend = [(number - kingMin) / (kingMax - kingMin) for number in toAppend]
+            toAppend = toAppend + timeToValues[t]
             finalListOutput.append(timeToValues[t])#undos the add 0 
             finalList.append(toAppend)
 
 
-    for finalForm in finalList:
+    """for finalForm in finalList:
         print(finalForm)
     for finalOutput in finalListOutput:
-        print(finalOutput)
+        print(finalOutput)"""
     with open(pickleOut, "wb") as outfile:
         pickle.dump(finalList, outfile)
         pickle.dump(finalListOutput, outfile)
