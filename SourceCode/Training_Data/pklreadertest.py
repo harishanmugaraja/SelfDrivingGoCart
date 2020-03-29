@@ -31,9 +31,9 @@ import signal
 import pickle
 
 
-
+filename = sys.argv[1]
 def main():
-    with open("pkl39.pkl", "rb") as infile:
+    with open(filename, "rb") as infile:
         inputandoutput = pickle.load(infile)
         outputonly = pickle.load(infile)
 

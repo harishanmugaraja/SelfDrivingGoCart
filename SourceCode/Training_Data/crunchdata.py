@@ -66,7 +66,7 @@ def main():
                 motor = int(splitupline[1].lstrip("b'"))
                 steering = int(splitupline[2][0:4])
                 timeList.append(time)
-                valueList = [[motor,0],[steering,0]]#changed for the neural net, zero is for formatting
+                valueList = [motor, steering]#changed for the neural net, zero is for formatting
                 #valueTuple = tuple(valueList)
                 timeToValues[time] = valueList
         f.close()
@@ -86,9 +86,9 @@ def main():
                 #print(splitWords)#debug
                 theta = float(splitWords[1])
                 dist = float(splitWords[3])
-                pointList = [theta, dist]
+                #pointList = [theta, dist]
                 #pointTuple = tuple(pointList)
-                currentPoints.append(pointList)
+                currentPoints.append(dist)
 
             elif len(line.split(" ")) == 1 and len(currentPoints) > 10: #this is the line where only time is printed, reset currentpoints and currenttime
                 #print(currentPoints)
@@ -124,14 +124,14 @@ def main():
         if abs(arduinoTimeToLidarTime[t] - t) < .5 + offset:
             #print(t)
             toAppend = timeToLidarPoints[arduinoTimeToLidarTime[t]] + timeToValues[t]#testing this
-            finalListOutput.append([timeToValues[t][0][0], timeToValues[t][1][0]])#undos the add 0 
+            finalListOutput.append(timeToValues[t])#undos the add 0 
             finalList.append(toAppend)
 
 
-    # for finalForm in finalList:
-    #     #     print(finalForm)
-    #     # for finalOutput in finalListOutput:
-    #     #     print(finalOutput)
+    for finalForm in finalList:
+        print(finalForm)
+    for finalOutput in finalListOutput:
+        print(finalOutput)
     with open(pickleOut, "wb") as outfile:
         pickle.dump(finalList, outfile)
         pickle.dump(finalListOutput, outfile)
