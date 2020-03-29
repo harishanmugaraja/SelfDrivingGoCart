@@ -128,6 +128,7 @@ def main():
 
     kingMax = max(listofMaxes)
     kingMin = min(listofMins)
+    print("max " + kingMax + " min " + kingMin)
 
     for t in timeList:#DO not comment out
         if abs(arduinoTimeToLidarTime[t] - t) < .5 + offset:
@@ -140,7 +141,7 @@ def main():
             finalListOutput.append(timeToValues[t])#undos the add 0 
             finalList.append(toAppend)
 
-
+    
     """for finalForm in finalList:
         print(finalForm)
     for finalOutput in finalListOutput:
